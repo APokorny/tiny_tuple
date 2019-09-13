@@ -17,6 +17,8 @@ struct item;
 template <typename K, typename V>
 struct item<K, V, true> : V
 {
+    using key = K;
+    using value = V;
     constexpr item() {}
     constexpr item(item<K, V, true>&& t) : V(static_cast<V&&>(t)) {}
     constexpr item(item<K, V, true> const& t) : V(static_cast<V const&>(t)) {}
@@ -26,6 +28,8 @@ struct item<K, V, true> : V
 template <typename K, typename V>
 struct item<K, V, false>
 {
+    using key = K;
+    using value = V;
     constexpr item() : data_() {}
 
     constexpr item(item<K, V, false>&& t) : data_(std::move(t.data_)) {}

@@ -6,32 +6,11 @@
 #include "kvasir/mpl/sequence/size.hpp"
 #include "kvasir/mpl/sequence/at.hpp"
 #include "tiny_tuple/map.h"
+#include "tiny_tuple/detail/tuple.h"
+#include "tiny_tuple/detail/invoke.h"
 
 namespace tiny_tuple
 {
-namespace detail
-{
-struct from_other
-{
-};
-template <typename Index, typename... Params>
-struct tuple_impl;
-template <int... Is, typename... Params>
-struct tuple_impl<std::integer_sequence<int, Is...>, Params...> : item<kvasir::mpl::int_<Is>, Params>...
-{
-    constexpr tuple_impl() = default;
-    template <typename Other>
-    explicit constexpr tuple_impl(detail::from_other, Other&& other)
-        : item<kvasir::mpl::int_<Is>, Params>(detail::get<kvasir::mpl::int_<Is>>(static_cast<Other&&>(other)))...
-    {
-    }
-
-    template <typename... Yn>
-    constexpr tuple_impl(Yn&&... yn) : item<kvasir::mpl::int_<Is>, Params>(static_cast<Yn&&>(yn))...
-    {
-    }
-};
-}  // namespace detail
 template <typename... Params>
 struct tuple : detail::tuple_impl<std::make_integer_sequence<int, sizeof...(Params)>, Params...>
 {
@@ -79,4 +58,36 @@ auto& get(tuple<Ts...>& t)
 {
     return get(static_cast<detail::item<kvasir::mpl::int_<I>, VT>&>(t));
 }
+
+template <int I, typename... Ts, typename VT = kvasir::mpl::call<kvasir::mpl::at<kvasir::mpl::uint_<I>>, Ts...>>
+auto&& get(tuple<Ts...>&& t)
+{
+    return get(std::move(static_cast<detail::item<kvasir::mpl::int_<I>, VT>>(t)));
+}
+
+template <typename... Ts, typename... Us>
+constexpr auto append(tuple<Ts...>&& elements, Us&&... params)
+{
+    return detail::append_impl(std::move(elements), std::make_integer_sequence<int, sizeof...(Ts)>(), std::forward<Us>(params)...);
+}
+
+template <typename... Ts, typename... Us>
+constexpr auto append(tuple<Ts...> const& elements, Us&&... params)
+{
+    return detail::append_impl(elements, std::make_integer_sequence<int, sizeof...(Ts)>(), std::forward<Us>(params)...);
+}
+
+template <typename... Ts, typename F>
+constexpr void foreach (tuple<Ts...>& tup, F && fun)
+{
+    return detail::foreach_impl(tup, std::make_integer_sequence<int, sizeof...(Ts)>(), std::forward<F>(fun));
+}
+
+template <typename... Ts, typename F>
+constexpr void foreach (tuple<Ts...> const& tup, F && fun)
+{
+    return detail::foreach_impl(tup, std::make_integer_sequence<int, sizeof...(Ts)>(), std::forward<F>(fun));
+}
 }  // namespace tiny_tuple
+
+#endif
