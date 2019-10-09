@@ -47,19 +47,19 @@ struct tuple : detail::tuple_impl<std::make_integer_sequence<int, sizeof...(Para
     }
 };
 
-template <int I, typename... Ts, typename VT = kvasir::mpl::call<kvasir::mpl::at<kvasir::mpl::uint_<I>>, Ts...>>
+template <int I, typename... Ts, typename VT>
 constexpr auto const& get(tuple<Ts...> const& t)
 {
     return get(static_cast<detail::item<kvasir::mpl::int_<I>, VT> const&>(t));
 }
 
-template <int I, typename... Ts, typename VT = kvasir::mpl::call<kvasir::mpl::at<kvasir::mpl::uint_<I>>, Ts...>>
+template <int I, typename... Ts, typename VT>
 auto& get(tuple<Ts...>& t)
 {
     return get(static_cast<detail::item<kvasir::mpl::int_<I>, VT>&>(t));
 }
 
-template <int I, typename... Ts, typename VT = kvasir::mpl::call<kvasir::mpl::at<kvasir::mpl::uint_<I>>, Ts...>>
+template <int I, typename... Ts, typename VT>
 auto&& get(tuple<Ts...>&& t)
 {
     return get(std::move(static_cast<detail::item<kvasir::mpl::int_<I>, VT>>(t)));

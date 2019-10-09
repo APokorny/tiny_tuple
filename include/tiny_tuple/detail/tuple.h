@@ -13,6 +13,8 @@ constexpr auto const& get(tuple<Ts...> const& t);
 
 template <int I, typename... Ts, typename VT = kvasir::mpl::call<kvasir::mpl::at<kvasir::mpl::uint_<I>>, Ts...>>
 auto& get(tuple<Ts...>& t);
+template <int I, typename... Ts, typename VT = kvasir::mpl::call<kvasir::mpl::at<kvasir::mpl::uint_<I>>, Ts...>>
+auto&& get(tuple<Ts...>&& t);
 
 namespace detail
 {

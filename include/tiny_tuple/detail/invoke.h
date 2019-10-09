@@ -16,7 +16,7 @@ struct tuple;
 
 namespace detail
 {
-#ifdef __cpp_lib_is_invocable
+#ifndef __cpp_lib_is_invocable
 template <typename... Ts>
 using void_t = void;
 template <typename Result, typename = void>
