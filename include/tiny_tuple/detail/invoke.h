@@ -56,14 +56,14 @@ constexpr typename std::enable_if<is_invocable<Fn, V>::value, int>::type call_wi
 template <typename... Ts, int... Is, typename F>
 constexpr void foreach_impl(tiny_tuple::tuple<Ts...>& tup, std::integer_sequence<int, Is...>, F&& fun)
 {
-    auto l = {call_with_index(std::forward<F>(fun), tiny_tuple::get<Is>(tup), kvasir::mpl::uint_<Is>{})...};
+    int l[] = {call_with_index(std::forward<F>(fun), tiny_tuple::get<Is>(tup), kvasir::mpl::uint_<Is>{})...};
     (void)l;
 }
 
 template <typename... Ts, int... Is, typename F>
 constexpr auto foreach_impl(tuple<Ts...> const& tup, std::integer_sequence<int, Is...>, F&& fun)
 {
-    auto l = {call_with_index(std::forward<F>(fun), tiny_tuple::get<Is>(tup), kvasir::mpl::uint_<Is>{})...};
+    int l[] = {call_with_index(std::forward<F>(fun), tiny_tuple::get<Is>(tup), kvasir::mpl::uint_<Is>{})...};
     (void)l;
 }
 
