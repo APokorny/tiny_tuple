@@ -33,6 +33,8 @@ struct tuple_impl<std::integer_sequence<int, Is...>, Params...> : item<kvasir::m
     {
     }
 
+    constexpr tuple_impl(tuple_impl const&) = default;
+    constexpr tuple_impl(tuple_impl &&) = default;
     template <typename... Yn>
     constexpr tuple_impl(Yn&&... yn) : item<kvasir::mpl::int_<Is>, Params>(static_cast<Yn&&>(yn))...
     {

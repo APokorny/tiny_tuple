@@ -21,7 +21,8 @@ struct tuple : detail::tuple_impl<std::make_integer_sequence<int, sizeof...(Para
     constexpr tuple(Other&& other) : Base(detail::from_other{}, static_cast<Other&&>(other))
     {
     }
-
+    constexpr tuple(tuple const&) = default;
+    constexpr tuple(tuple &&) = default;
     template <typename... Yn>
     constexpr tuple(Yn&&... yn) : Base(static_cast<Yn&&>(yn)...)
     {
@@ -37,6 +38,11 @@ struct tuple : detail::tuple_impl<std::make_integer_sequence<int, sizeof...(Para
     tuple& operator=(tuple const& other)
     {
         assign(std::make_integer_sequence<int, sizeof...(Params)>(), other);
+        return *this;
+    }
+    tuple& operator=(tuple && other)
+    {
+        assign(std::make_integer_sequence<int, sizeof...(Params)>(), std::move(other));
         return *this;
     }
     template <template <typename...> class C, typename... Yn>
