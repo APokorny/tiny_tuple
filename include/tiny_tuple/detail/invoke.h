@@ -68,5 +68,8 @@ constexpr auto foreach_impl(tuple<Ts...> const& tup, std::integer_sequence<int, 
 }
 
 }  // namespace detail
+
+template <typename Fn, typename... ArgTypes>
+using is_invocable = tiny_tuple::detail::is_invocable<Fn, ArgTypes...>;
 }  // namespace tiny_tuple
 #endif
