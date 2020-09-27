@@ -23,9 +23,15 @@ endif()
 find_package(kvasir_mpl)
 
 add_library(tiny_tuple INTERFACE)
+add_library(tiny_tuple::tiny_tuple ALIAS tiny_tuple)
 target_link_libraries(tiny_tuple INTERFACE kvasir_mpl)
 target_include_directories(tiny_tuple INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
     )
 install(TARGETS tiny_tuple DESTINATION include)
+install(TARGETS tiny_tuple EXPORT tiny_tuple-Targets DESTINATION include)
+install(EXPORT tiny_tuple-Targets
+    NAMESPACE tiny_tuple::
+    DESTINATION lib/cmake/tiny_tuple
+    )
