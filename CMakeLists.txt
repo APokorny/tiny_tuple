@@ -35,3 +35,4 @@ install(EXPORT tiny_tuple-Targets
     NAMESPACE tiny_tuple::
     DESTINATION lib/cmake/tiny_tuple
     )
+install(DIRECTORY include/tiny_tuple DESTINATION include)
