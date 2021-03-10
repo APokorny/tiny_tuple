@@ -35,8 +35,9 @@ struct tuple_impl<std::integer_sequence<int, Is...>, Params...> : item<kvasir::m
 
     constexpr tuple_impl(tuple_impl const&) = default;
     constexpr tuple_impl(tuple_impl &&) = default;
+    constexpr tuple_impl(tuple_impl &) = default;
     template <typename... Yn>
-    constexpr tuple_impl(Yn&&... yn) : item<kvasir::mpl::int_<Is>, Params>(static_cast<Yn&&>(yn))...
+    explicit constexpr tuple_impl(Yn&&... yn) : item<kvasir::mpl::int_<Is>, Params>(static_cast<Yn&&>(yn))...
     {
     }
 };
@@ -44,13 +45,37 @@ struct tuple_impl<std::integer_sequence<int, Is...>, Params...> : item<kvasir::m
 template <typename... Ts, int... Is, typename... Us>
 constexpr auto append_impl(tuple<Ts...>&& elements, std::integer_sequence<int, Is...>, Us&&... params)
 {
-    return tiny_tuple::tuple<std::decay_t<Ts>..., std::decay_t<Us>...>(tiny_tuple::get<Is>(elements)..., std::forward<Us>(params)...);
+    return tiny_tuple::tuple<Ts..., std::decay_t<Us>...>(std::move(tiny_tuple::get<Is>(elements))..., std::forward<Us>(params)...);
 }
 
 template <typename... Ts, int... Is, typename... Us>
 constexpr auto append_impl(tuple<Ts...> const& elements, std::integer_sequence<int, Is...>, Us&&... params)
 {
-    return tiny_tuple::tuple<std::decay_t<Ts>..., std::decay_t<Us>...>(tiny_tuple::get<Is>(elements)..., std::forward<Us>(params)...);
+    return tiny_tuple::tuple<Ts..., std::decay_t<Us>...>(tiny_tuple::get<Is>(elements)..., std::forward<Us>(params)...);
+}
+
+template <typename... Ts, int... Is, typename... Us>
+constexpr auto prepend_impl(tuple<Ts...>&& elements, std::integer_sequence<int, Is...>, Us&&... params)
+{
+    return tiny_tuple::tuple<std::decay_t<Us>..., Ts...>(std::forward<Us>(params)..., std::move(tiny_tuple::get<Is>(elements))...);
+}
+
+template <typename... Ts, int... Is, typename... Us>
+constexpr auto prepend_impl(tuple<Ts...> const& elements, std::integer_sequence<int, Is...>, Us&&... params)
+{
+    return tiny_tuple::tuple<std::decay_t<Us>..., Ts...>(std::forward<Us>(params)... , tiny_tuple::get<Is>(elements)... );
+}
+
+template <typename... Ts, int... Is, typename... Us, int... Js>
+constexpr auto concat_impl(tuple<Ts...>&& elements, std::integer_sequence<int, Is...>, tuple<Us...>&& elements2, std::integer_sequence<int, Js...>)
+{
+    return tiny_tuple::tuple<Ts..., Us...>(std::move(tiny_tuple::get<Is>(elements))..., std::move(tiny_tuple::get<Js>(elements2))...);
+}
+
+template <typename... Ts, int... Is, typename... Us, int... Js>
+constexpr auto concat_impl(tuple<Ts...> const& elements, std::integer_sequence<int, Is...>, tuple<Us...>const& elements2, std::integer_sequence<int, Js...>)
+{
+    return tiny_tuple::tuple<Ts..., Us...>(tiny_tuple::get<Is>(elements)..., tiny_tuple::get<Js>(elements2)...);
 }
 
 }  // namespace detail

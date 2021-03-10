@@ -24,4 +24,3 @@ AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterReturnType: None
 BreakBeforeBraces: Allman
 FixNamespaceComments: true
-PointerAlignment: Left
