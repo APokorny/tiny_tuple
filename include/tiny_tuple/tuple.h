@@ -21,8 +21,9 @@ struct tuple : detail::tuple_impl<std::make_integer_sequence<int, sizeof...(Para
     constexpr tuple(Other&& other) : Base(detail::from_other{}, static_cast<Other&&>(other))
     {
     }
-    constexpr tuple(tuple const&) = default;
-    constexpr tuple(tuple &&) = default;
+    constexpr tuple(tuple<Params...> const& other) = default;
+    constexpr tuple(tuple<Params...> && other) =default;
+    constexpr tuple(tuple<Params...> & other) = default; // Base(static_cast<Base const&>(other)){};
     template <typename... Yn>
     constexpr tuple(Yn&&... yn) : Base(static_cast<Yn&&>(yn)...)
     {
@@ -82,6 +83,35 @@ constexpr auto append(tuple<Ts...> const& elements, Us&&... params)
 {
     return detail::append_impl(elements, std::make_integer_sequence<int, sizeof...(Ts)>(), std::forward<Us>(params)...);
 }
+
+
+template <typename... Ts, typename... Us>
+constexpr auto prepend(tuple<Ts...>&& elements, Us&&... params)
+{
+    return detail::prepend_impl(std::move(elements), std::make_integer_sequence<int, sizeof...(Ts)>(), std::forward<Us>(params)...);
+}
+
+template <typename... Ts, typename... Us>
+constexpr auto prepend(tuple<Ts...> const& elements, Us&&... params)
+{
+    return detail::prepend_impl(elements, std::make_integer_sequence<int, sizeof...(Ts)>(), std::forward<Us>(params)...);
+}
+
+template <typename... Ts, typename... Us>
+constexpr auto concat(tuple<Ts...>&& elements, tuple<Us...> && elements2)
+{
+    return detail::concat_impl(std::move(elements), std::make_integer_sequence<int, sizeof...(Ts)>(), 
+        std::move(elements2), std::make_integer_sequence<int, sizeof...(Us)>());
+}
+
+template <typename... Ts, typename... Us>
+constexpr auto concat(tuple<Ts...> const& elements, tuple<Us...> const& elements2)
+{
+    return detail::concat_impl(elements, std::make_integer_sequence<int, sizeof...(Ts)>(),
+        elements2, std::make_integer_sequence<int, sizeof...(Us)>());
+}
+
+
 
 template <typename... Ts, typename F>
 constexpr void foreach (tuple<Ts...>& tup, F && fun)
