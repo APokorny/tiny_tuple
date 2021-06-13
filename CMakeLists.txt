@@ -1,12 +1,19 @@
+cmake_policy(SET CMP0057 NEW)
 cmake_policy(SET CMP0048 NEW)
-
-project(tiny_tuple VERSION 1.0.0 LANGUAGES CXX)
-cmake_minimum_required(VERSION 3.10)
-
+cmake_policy(SET CMP0077 NEW)
+cmake_minimum_required(VERSION 3.14)
+project(tiny_tuple VERSION 0.1.0 LANGUAGES CXX)
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag(-std=c++14 HAS_CXX14_FLAG)
 check_cxx_compiler_flag(-std=c++17 HAS_CXX17_FLAG)
 check_cxx_compiler_flag(-std=c++2a HAS_CXX20_FLAG)
+
+include(FetchContent)
+fetchcontent_declare(kvasir_mpl
+  GIT_REPOSITORY https://github.com/kvasir-io/mpl
+  GIT_TAG development) # todo: pick a fixed revision
+
+fetchcontent_makeavailable(kvasir_mpl)
 
 if(HAS_CXX20_FLAG)
   set(CMAKE_CXX_STANDARD 20)
@@ -17,10 +24,6 @@ elseif(HAS_CXX14_FLAG)
 else()
   message(FATAL_ERROR "requires at least c++14")
 endif()
-
-
-
-find_package(kvasir_mpl)
 
 add_library(tiny_tuple INTERFACE)
 add_library(tiny_tuple::tiny_tuple ALIAS tiny_tuple)
