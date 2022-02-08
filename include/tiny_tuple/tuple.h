@@ -32,9 +32,7 @@ struct tuple : detail::tuple_impl<std::make_integer_sequence<int, sizeof...(Para
     template <int... Is, typename Other>
     void assign(std::integer_sequence<int, Is...>, Other const& other)
     {
-        auto assign_fun       = [this, &other](auto i) { get<decltype(i)::value>(*this) = get<decltype(i)::value>(other); };
-        int  assigner_dummy[] = {(assign_fun(kvasir::mpl::int_<Is>{}), 0)...};
-        (void)assigner_dummy;
+        ((get<Is>(*this) = get<Is>(other)),...,0);
     }
     tuple& operator=(tuple const& other)
     {

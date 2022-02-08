@@ -12,7 +12,7 @@ CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
 
 add_library(tiny_tuple INTERFACE)
 add_library(tiny_tuple::tiny_tuple ALIAS tiny_tuple)
-add_compile_options(tiny_tuple INTERFACE cxx_std_14)
+add_compile_options(tiny_tuple INTERFACE cxx_std_17)
 target_link_libraries(tiny_tuple INTERFACE kvasir_mpl)
 target_include_directories(tiny_tuple INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
