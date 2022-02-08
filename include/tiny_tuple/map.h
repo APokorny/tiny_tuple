@@ -3,10 +3,10 @@
 
 #include <type_traits>
 #include <utility>
-#include "kvasir/mpl/algorithm/find_if.hpp"
-#include "kvasir/mpl/sequence/front.hpp"
-#include "kvasir/mpl/sequence/size.hpp"
-#include "kvasir/mpl/types/bool.hpp"
+#include <kvasir/mpl/algorithm/find_if.hpp>
+#include <kvasir/mpl/sequence/front.hpp>
+#include <kvasir/mpl/sequence/size.hpp>
+#include <kvasir/mpl/types/bool.hpp>
 
 namespace tiny_tuple
 {

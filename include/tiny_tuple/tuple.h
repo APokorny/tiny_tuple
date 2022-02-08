@@ -1,13 +1,13 @@
 #ifndef TINY_TUPLE_TUPLE_HPP_INCLUDED
 #define TINY_TUPLE_TUPLE_HPP_INCLUDED
 
-#include "kvasir/mpl/algorithm/find_if.hpp"
-#include "kvasir/mpl/sequence/front.hpp"
-#include "kvasir/mpl/sequence/size.hpp"
-#include "kvasir/mpl/sequence/at.hpp"
-#include "tiny_tuple/map.h"
-#include "tiny_tuple/detail/tuple.h"
-#include "tiny_tuple/detail/invoke.h"
+#include <kvasir/mpl/algorithm/find_if.hpp>
+#include <kvasir/mpl/sequence/front.hpp>
+#include <kvasir/mpl/sequence/size.hpp>
+#include <kvasir/mpl/sequence/at.hpp>
+#include <tiny_tuple/map.h>
+#include <tiny_tuple/detail/tuple.h>
+#include <tiny_tuple/detail/invoke.h>
 
 namespace tiny_tuple
 {
