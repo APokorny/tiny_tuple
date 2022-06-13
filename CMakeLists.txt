@@ -4,7 +4,7 @@ cmake_policy(SET CMP0077 NEW)
 cmake_minimum_required(VERSION 3.14)
 project(tiny_tuple VERSION 0.1.0 LANGUAGES CXX)
 
-include(cmake/CPM.cmake)
+include(cmake/get_cpm.cmake)
 CPMAddPackage(
     NAME kvasir_mpl
     GITHUB_REPOSITORY kvasir-io/mpl
