@@ -29,7 +29,6 @@ packageProject(
     INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
     DEPENDENCIES "kvasir_mpl 1.0.0"
     VERSION_HEADER "${PROJECT_NAME}/version.h"
-    EXPORT_HEADER "${PROJECT_NAME}/export.h"
     NAMESPACE tiny_tuple
     COMPATIBILITY AnyNewerVersion
     DISABLE_VERSION_SUFFIX YES
