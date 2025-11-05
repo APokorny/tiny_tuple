@@ -8,7 +8,7 @@ include(cmake/get_cpm.cmake)
 CPMAddPackage(
     NAME kvasir_mpl
     GITHUB_REPOSITORY kvasir-io/mpl
-    GIT_TAG 59cd21381c3f3285939c0d32dbfe657398c52ec9
+    GIT_TAG 8af83888d3c43e8e4decb40a7b3bd2fa0f867303
     )
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.9.0")
 
